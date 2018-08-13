@@ -9,6 +9,27 @@ var { User } = require('./models/user');
 var app =express();
 
 app.use(bodyParser.json());
+app.post('/users',(req,res)=>{
+    // console.log(req.body);
+    var user = new User({
+        email:req.body.email
+    });
+
+    user.save().then((doc)=>{
+        res.send(doc);
+    },(e)=>{
+        res.status(400).send(e);
+    })
+});
+
+
+app.get('/users',(req,res)=>{
+    User.find().then((user)=>{
+        res.send({user})
+    },(e)=>{
+        res.status(400).send(e);
+    })
+});
 
 app.post('/todos',(req,res)=>{
     // console.log(req.body);
